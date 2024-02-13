@@ -9,13 +9,13 @@ export default class Table extends LightningElement {
     
     @track displayModal = false;
     @track modalMode = '';
-    data = [];
+    //data = [];
     columns = [];
     actions = [];
     rowFields={}; //para guardar la informacion de la fila que se clickeo
     cardTitle;
     buttonTitle;
-    lstContacts;
+    @track lstContacts = [];
 
     // data = [
     //     {
@@ -137,10 +137,11 @@ export default class Table extends LightningElement {
                         lastName: updatedData.LastName,
                         email: updatedData.Email
                     });
-                    this.showToast('Updated', 'Contact updated successfully.', 'success', 'dismisable');
+                    
+                    // Update contact list to show
+                    this.refreshContactList(updatedData);
 
-                    // Reload contacts
-                    await this.obtainContacts();
+                    this.showToast('Updated', 'Contact updated successfully.', 'success', 'dismisable');
                     console.log('edit handled');
                 } catch (error) {
                     console.error('Error updating contact:', error);
@@ -150,34 +151,31 @@ export default class Table extends LightningElement {
             case 'create':
                 try {
                     const newData = modalEvent.detail.data;
-                    console.log('createee: ', newData);
-
                     await createContacts({
                         firstName: newData.FirstName,
                         lastName: newData.LastName,
                         email: newData.Email
                     });
-                    this.showToast('Created', 'Contact created successfully.', 'success', 'dismisable');
-
+                    
                     // Reload contacts
                     await this.obtainContacts();
+                    this.showToast('Created', 'Contact created successfully.', 'success', 'dismisable');
                     console.log('create handled');
-
-                    
                 } catch (error) {
                     console.error('Error creating contact:', error);
                     this.showToast('Error', 'Error creating contact.', 'error', 'dismisable');
                 }
                 break;
+                
             case 'delete':
                 try {
                     const idSelected = this.rowFields.Id
                     console.log(idSelected);
                     await deleteContacts({ id: idSelected });
-                    this.showToast('Deleted', 'Contact deleted successfully.', 'success', 'dismisable');
-
+                    
                     // Reload contacts
                     await this.obtainContacts();
+                    this.showToast('Deleted', 'Contact deleted successfully.', 'success', 'dismisable');
                 } catch (error) {
                     console.error('Error deleting contact:', error);
                     this.showToast('Error', 'Error deleting contact.', 'error', 'dismisable');
@@ -189,6 +187,12 @@ export default class Table extends LightningElement {
         this.closeModal();
     }
 
+    // Function to update contact list to show but only works with update :(
+    refreshContactList(updatedContact) {
+        this.lstContacts = this.lstContacts.map(contact => {
+            return contact.Id === updatedContact.Id ? updatedContact : contact;
+        });
+    }
 
     showToast(title, message, variant, mode){
         const event = new ShowToastEvent({
