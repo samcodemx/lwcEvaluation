@@ -1,13 +1,33 @@
+<!-- form.html -->
 <template>
-    <div slot="content">
-        <p>test</p>
-    </div>
 
-    <div slot="footer" >
-        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
-            onclick={handleCancelBtn}>Cancel</button>
-        <button class="slds-button slds-button_brand" onclick={handleConfirmBtn}>
-            <slot name="button-title"></slot>
-        </button>
-    </div>
+    <!-- create mode -->
+    <template if:true={isCreateMode}>
+        <div class="slds-grid slds-gutters slds-wrap">
+            <template for:each={fieldValues} for:item="field">
+                <div key={field.fieldName} class="slds-col slds-size_1-of-2">
+                    <lightning-input type="text" label={field.label} data-id={field.fieldName}
+                        onchange={handleFieldChange}></lightning-input>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <!-- edit mode -->
+    <template if:true={isEditMode}>
+        <div class="slds-grid slds-gutters slds-wrap">
+            <template for:each={fieldValues} for:item="field">
+                <div key={field.fieldName} class="slds-col slds-size_1-of-2">
+                    <lightning-input type="text" label={field.label} data-id={field.fieldName} value={field.value}
+                        onchange={handleFieldChange}></lightning-input>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <!-- Delete mode -->
+    <template if:true={isDeleteMode}>
+        <div class="slds-text-align_center">This contact will be deleted permanently.</div>
+    </template>
+    
 </template>

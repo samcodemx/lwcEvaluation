@@ -1,3 +1,4 @@
+<!-- table.html -->
 <template>
 
 <!-- card header -->
@@ -6,7 +7,7 @@
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title">
-                            <span>Contact List</span>
+                        <span>Contact List</span>
                     </h2>
                 </div>
                 <div class="slds-no-flex">
@@ -30,22 +31,16 @@
 
     <!-- show modal -->
     <template if:true={displayModal}>
-        <c-modal 
-            mode={modalMode}
-            oncancel={handleCancelBtnModal}
-            onconfirm={handleConfirmBtnModal}
-            card-title={cardTitle}
-            columns={columns}
-            row-fields={rowFields}
-            button-title={buttonTitle}
-        >
-            <!-- <c-form slot="content"></c-form> -->
-            
-            <!-- Utiliza el slot "footer" para pasar los botones -->
-            <!-- <c-form slot="footer"></c-form> -->
-            
-            <div slot="card-title">{cardTitle}</div>
-            <div slot="button-title">{buttonTitle}</div>
+        <c-modal>
+
+        <div slot="card-title">{cardTitle}</div>
+        <div slot="content">
+            <c-form mode={modalMode} columns={columns} row-fields={rowFields} oncancel={handleCancelBtnModal} onconfirm={handleConfirmForm}>
+               
+            </c-form>
+        </div>
+        <div slot="button-title">{buttonTitle}</div>
+
         </c-modal>
     </template>
 

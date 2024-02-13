@@ -9,28 +9,12 @@ export default class Table extends LightningElement {
     
     @track displayModal = false;
     @track modalMode = '';
-    //data = [];
     columns = [];
     actions = [];
-    rowFields={}; //para guardar la informacion de la fila que se clickeo
+    rowFields={};
     cardTitle;
     buttonTitle;
     @track lstContacts = [];
-
-    // data = [
-    //     {
-    //         id: "001",
-    //         firstName: "Pedro",
-    //         lastName: "Páramo",
-    //         email: "q@q.com",
-    //     },
-    //     {
-    //         id: "002",
-    //         firstName: "Juan",
-    //         lastName: "Rulfo",
-    //         email: "assa@ss.com",
-    //     },
-    // ];
 
     actions = [
         {
@@ -125,12 +109,12 @@ export default class Table extends LightningElement {
         console.log('cancel handled');
     }
 
-    async handleConfirmBtnModal(modalEvent) {
-        const modeName = modalEvent.detail.mode;
+    async handleConfirmForm(event) {
+        const modeName = event.detail.mode;
         switch (modeName) {
             case 'edit':
-                try{
-                    const updatedData = modalEvent.detail.data;
+                try {
+                    const updatedData = event.detail.data;
                     await updateContacts({
                         contactId: updatedData.Id,
                         firstName: updatedData.FirstName,
@@ -140,7 +124,7 @@ export default class Table extends LightningElement {
                     
                     // Update contact list to show
                     this.refreshContactList(updatedData);
-
+    
                     this.showToast('Updated', 'Contact updated successfully.', 'success', 'dismisable');
                     console.log('edit handled');
                 } catch (error) {
@@ -150,7 +134,7 @@ export default class Table extends LightningElement {
                 break;
             case 'create':
                 try {
-                    const newData = modalEvent.detail.data;
+                    const newData = event.detail.data;
                     await createContacts({
                         firstName: newData.FirstName,
                         lastName: newData.LastName,
@@ -169,8 +153,7 @@ export default class Table extends LightningElement {
                 
             case 'delete':
                 try {
-                    const idSelected = this.rowFields.Id
-                    console.log(idSelected);
+                    const idSelected = this.rowFields.Id;
                     await deleteContacts({ id: idSelected });
                     
                     // Reload contacts
@@ -186,6 +169,7 @@ export default class Table extends LightningElement {
         }
         this.closeModal();
     }
+    
 
     // Function to update contact list to show but only works with update :(
     refreshContactList(updatedContact) {

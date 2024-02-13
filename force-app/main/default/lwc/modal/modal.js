@@ -7,30 +7,7 @@ export default class Modal extends LightningElement {
     @api buttonTitle;
     @api columns;
     @api rowFields;
-    fieldValues=[]; //almacena la data que se va a pasar al modal desde la columna clickeada
-
-    connectedCallback(){
-        for (const column of this.columns){
-            if(column.fieldName !== 'Id' && column.type !== 'action'){
-                this.fieldValues.push({
-                    ...column,
-                    value:this.rowFields[column.fieldName]
-                })
-            }
-        }
-    }
-
-    get isEditMode() {
-        return this.mode === 'edit';
-    }
-
-    get isCreateMode() {
-        return this.mode === 'create';
-    }
-
-    get isDeleteMode() {
-        return this.mode === 'delete';
-    }
+    fieldValues=[];
 
     handleCancelBtn(){
         const event = new CustomEvent('cancel');
@@ -52,11 +29,4 @@ export default class Modal extends LightningElement {
         console.log('confirm button clicked from modal')
     };
 
-    handleFieldChange(event){
-        const fieldName = event.target.dataset.id;
-        const fieldValue = event.target.value;
-        const rowFields = {...this.rowFields};
-        rowFields[fieldName] = fieldValue;
-        this.rowFields = rowFields;
-    };
 }
