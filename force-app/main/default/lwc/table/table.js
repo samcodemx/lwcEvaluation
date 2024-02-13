@@ -116,6 +116,7 @@ export default class Table extends LightningElement {
         this.cardTitle = 'New Contact';
         this.buttonTitle = 'Create';
         this.modalMode = 'create';
+        this.rowFields={};
         this.displayModal = true;
         console.log('clicked new contact');
     }

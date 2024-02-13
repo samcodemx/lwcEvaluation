@@ -10,9 +10,6 @@
             </div>
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
 
-                <!-- show form -->
-                <!-- <slot name="content"></slot> -->
-
                 <!-- Edit mode -->
                 <template if:true={isEditMode}>
                     <div class="slds-grid slds-gutters slds-wrap">
@@ -42,7 +39,6 @@
             
             </div>
             <div class="slds-modal__footer">
-                <!-- <slot name="footer"></slot> -->
             <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
                 onclick={handleCancelBtn}>Cancel</button>
                 <button class="slds-button slds-button_brand" onclick={handleConfirmBtn}>
