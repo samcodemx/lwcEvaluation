@@ -1,0 +1,55 @@
+<!-- modal.html -->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                    <slot name="card-title"></slot>
+                </h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                <!-- show form -->
+                <!-- <slot name="content"></slot> -->
+
+                <!-- Edit mode -->
+                <template if:true={isEditMode}>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <template for:each={fieldValues} for:item="field">
+                            <div key={field.fieldName} class="slds-col slds-size_1-of-2" >
+                                <lightning-input type="text" label={field.label} data-id={field.fieldName} value={field.value} onchange={handleFieldChange}></lightning-input>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Create mode -->
+                <template if:true={isCreateMode}>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <template for:each={fieldValues} for:item="field">
+                            <div key={field.fieldName} class="slds-col slds-size_1-of-2" >
+                                <lightning-input type="text" label={field.label} data-id={field.fieldName} onchange={handleFieldChange}></lightning-input>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Delete mode -->
+                <template if:true={isDeleteMode}>
+                    <div class="slds-text-align_center">This contact will be deleted permanently.</div>
+                </template>
+            
+            </div>
+            <div class="slds-modal__footer">
+                <!-- <slot name="footer"></slot> -->
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                onclick={handleCancelBtn}>Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={handleConfirmBtn}>
+                <slot name="button-title"></slot>
+            </button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>
